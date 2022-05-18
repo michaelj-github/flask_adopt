@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Our Pets</h1>
+
+<div class="grid-container">
+    {% for pet in pets %}
+    <div>
+        <a href='/{{pet.id}}'><img src="{{ pet.image_url() }}"></a>
+        {% if pet.available %} <p>{{ pet.name }}<b> is available!</b></p> {% endif %}
+    </div>
+    {% else %}
+    <div>
+      <p>Sorry, no pets today.</p>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

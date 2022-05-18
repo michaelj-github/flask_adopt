@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Pet # {{pet.id}} is a {{pet.species}} named {{ pet.name }}.</h1>
+{% if pet.age %} <p>{{ pet.name }} is {{pet.age}} years old.</p> {% endif %}
+{% if pet.available %}
+ <p>{{ pet.name }}<b> is available!</b></p> 
+ {% else %}
+ <p>{{ pet.name }}<b> is not currently available for adoption.</b></p> 
+ {% endif %}
+        <img src="{{ pet.image_url() }}">
+
+{% endblock %}
