@@ -20,20 +20,11 @@ def list_pets():
     pets = Pet.query.all()
     return render_template("list_pets_form.html", pets=pets)
 
-@app.route("/<int:pet_id>", methods=["GET", "POST"])
-def edit_pet(pet_id):
-    """Edit pet."""
-
-    pet = Pet.query.get_or_404(pet_id)
-    form = EditPetForm(obj=pet)
-    return render_template("edit_pet_form.html", form=form, pet=pet)
-
 @app.route("/add")
 def add_pet_view():
     """Add a pet."""
 
     form = AddPetForm()
-    print("GET request")
     return render_template("add_pet_form.html", form=form)
 
 @app.route("/add", methods=["POST"])
@@ -41,15 +32,37 @@ def add_pet():
     """Add a pet."""
 
     form = AddPetForm()
-    print("POST request")
 
     if form.validate_on_submit():
-        print("form validated")
-    # new_pet = Pet(name=form.name.data, age=form.age.data, species=form.species.data)
-    # db.session.add(new_pet)
-    # db.session.commit()
-        return redirect('/add')
+        new_pet = Pet(name=form.name.data, age=form.age.data, species=form.species.data)
+        db.session.add(new_pet)
+        db.session.commit()
+        return redirect('/')
     else:
-        print("form not validated")
         return render_template("add_pet_form.html", form=form)
+
+@app.route("/<int:pet_id>")
+def edit_pet_view(pet_id):
+    """GET request to view the Edit pet page."""
+    pet = Pet.query.get_or_404(pet_id)
+    form = EditPetForm(obj=pet)
+    return render_template("edit_pet_form.html", form=form, pet=pet)
+
+@app.route("/<int:pet_id>", methods=["POST"])
+def edit_pet(pet_id):
+    """POST request to Edit a pet record."""
+
+    pet = Pet.query.get_or_404(pet_id)
+    form = EditPetForm(obj=pet)
+
+    if form.validate_on_submit():
+        pet.notes = form.notes.data
+        pet.photo_url = form.photo_url.data
+        pet.available = form.available.data
+        db.session.commit()
+        return redirect(f"/{pet_id}")
+    else:
+        return render_template("edit_pet_form.html", form=form, pet=pet)    
+
+
 

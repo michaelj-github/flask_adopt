@@ -11,4 +11,29 @@
  {% endif %}
         <img src="{{ pet.image_url() }}">
 
+        <h1>Update {{pet.id}} </h1>
+
+        <form action="/{{pet.id}}", method="POST">
+            {{ form.hidden_tag() }}
+        
+            <table>
+                {% for field in form if field.widget.input_type != 'hidden' %}
+                <tr>
+                    <td><p class="label">{{field.label}}</p></td>
+                    <td>{{field}}</td>
+                    <td>
+                        <b class="error">
+                            {% for e in field.errors %}
+                              {{e}}
+                            {% endfor %}
+                        </b>
+                    </td>
+                </tr>
+        
+                {% endfor %}
+            </table>
+        
+          <button class="button editbutton" type="submit">Submit</button>
+        </form>
+
 {% endblock %}

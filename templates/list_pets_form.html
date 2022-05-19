@@ -8,7 +8,8 @@
     {% for pet in pets %}
     <div>
         <a href='/{{pet.id}}'><img src="{{ pet.image_url() }}"></a>
-        {% if pet.available %} <p>{{ pet.name }}<b> is available!</b></p> {% endif %}
+        {% if pet.available %} <p>{{ pet.name }}<b> is available!</b></p> {% else %}
+        <p>{{ pet.name }}<b> is not available!</b></p> {% endif %}
     </div>
     {% else %}
     <div>
@@ -16,6 +17,5 @@
     </div>
     {% endfor %}
 </div>
-
 
 {% endblock %}

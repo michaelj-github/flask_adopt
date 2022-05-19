@@ -12,7 +12,15 @@
         <tr>
             <td><p class="label">{{field.label}}</p></td>
             <td>{{field}}</td>
+            <td>
+                <b class="error">
+                    {% for e in field.errors %}
+                      {{e}}
+                    {% endfor %}
+                </b>
+            </td>
         </tr>
+
         {% endfor %}
     </table>
 
